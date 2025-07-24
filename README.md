@@ -75,7 +75,6 @@ Before you begin, ensure you have the following:
 2.  **Terraform**: Terraform installed on your local machine. You can download it from the [official Terraform website](https://www.terraform.io/downloads.html).
 3.  **AWS CLI**: The AWS Command Line Interface configured with your credentials. See the [AWS CLI documentation](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) for instructions.
 4.  **OpenShift Pull Secret**: A valid OpenShift pull secret. You can get this from the [Red Hat OpenShift Cluster Manager](https://console.redhat.com/openshift/install/pull-secret).
-5.  **SSH Key Pair**: An SSH key pair created in the AWS region where you plan to deploy the cluster.
 
 ## Deployment Steps
 
@@ -93,7 +92,7 @@ Before you begin, ensure you have the following:
 
 3.  **Provide the Pull Secret**
 
-    - Create a file named `pull-secret.oneline.txt` in the root of the project.
+    - Create a file named `pull-secret.txt` in the root of the project.
     - Paste your OpenShift pull secret into this file. Ensure it is a single line of JSON.
 
 4.  **Initialize Terraform**
