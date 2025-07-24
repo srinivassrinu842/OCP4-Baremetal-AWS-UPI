@@ -139,3 +139,95 @@ terraform destroy
 ```
 
 Enter `yes` when prompted to confirm the deletion.
+
+
+## Environment Configuration
+
+This project uses environment-specific configurations located in the `environments` directory:
+
+```plaintext
+environments/
+├── dev/
+│   └── terraform.tfvars    # Development environment variables
+└── prod/
+    └── terraform.tfvars    # Production environment variables
+```
+
+### Environment Variables (terraform.tfvars)
+
+Each environment's `terraform.tfvars` contains the following configuration:
+
+```hcl
+region                = "us-east-1"              # AWS region
+environment           = "dev"                   # Environment name
+vpc_cidr              = "10.0.0.0/16"           # VPC CIDR block
+public_subnet_cidr    = "10.0.1.0/24"           # Public subnet CIDR
+private_subnet_cidrs  = [                       # Private subnet CIDRs
+  "10.0.2.0/24",
+  "10.0.3.0/24", 
+  "10.0.4.0/24"
+]
+availability_zones    = [                       # AWS availability zones
+  "us-east-1a",
+  "us-east-1b",
+  "us-east-1c"
+]
+domain_name           = "ocp.lan"               # Internal domain name
+bastion_ami           = "ami-0dfc569a8686b9320" # Bastion host AMI
+bastion_instance_type = "t3.medium"             # Bastion instance type
+ocp_version           = "4.16.40"              # OpenShift version
+key_name              = "your-key-pair"         # AWS SSH key pair name
+bastion_private_ip    = "10.0.1.10"            # Bastion host private IP
+bootst1_private_ip    = "10.0.2.10"            # Bootstrap node private IP
+master1_private_ip    = "10.0.2.11"            # Master 1 private IP
+master2_private_ip    = "10.0.3.11"            # Master 2 private IP
+master3_private_ip    = "10.0.4.11"            # Master 3 private IP
+create_nodes          = false                   # Flag to create nodes
+node_ami              = "ami-03ca8605aa130b597" # Node AMI ID
+bootstrap_instance_type = "t3.xlarge"          # Bootstrap instance type
+master_instance_type   = "t3.xlarge"           # Master node instance type
+pull_secret            = "pull-secret.oneline.txt" # Path to pull secret file
+```
+
+## Deployment Scripts
+
+The project includes two automation scripts in the `scripts` directory for easy deployment and cleanup:
+
+### deploy.sh
+
+This script automates the deployment process for a specific environment:
+
+```bash
+# Deploy development environment (default)
+./scripts/deploy.sh
+
+# Deploy specific environment
+./scripts/deploy.sh dev
+./scripts/deploy.sh prod
+```
+
+The script performs the following actions:
+1. Initializes Terraform (`terraform init`)
+2. Creates an execution plan using environment-specific variables
+3. Prompts for confirmation before applying changes
+4. Applies the Terraform configuration with the specified environment's `terraform.tfvars`
+
+### destroy.sh
+
+This script safely tears down the infrastructure:
+
+```bash
+# Destroy development environment (default)
+./scripts/destroy.sh
+
+# Destroy specific environment
+./scripts/destroy.sh dev
+./scripts/destroy.sh prod
+```
+
+The script:
+1. Prompts for confirmation before proceeding with destruction
+2. Uses the environment-specific `terraform.tfvars` for proper resource identification
+3. Executes `terraform destroy` to remove all resources
+
+⚠️ **Warning**: The destroy script will permanently delete all resources. Ensure you have backed up any important data before proceeding.
