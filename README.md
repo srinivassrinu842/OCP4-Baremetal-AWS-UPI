@@ -67,8 +67,6 @@ graph TD
 
 The project follows a modular Terraform structure:
 
-```
-
 ## Prerequisites
 
 Before you begin, ensure you have the following:
