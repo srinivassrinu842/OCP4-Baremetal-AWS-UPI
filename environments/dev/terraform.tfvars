@@ -18,4 +18,4 @@ create_nodes          = false
 node_ami              = "ami-03ca8605aa130b597"
 bootstrap_instance_type = "t3.xlarge"
 master_instance_type   = "t3.xlarge"
-pull_secret            = "pull-secret.oneline.txt"
+pull_secret            = "pull-secret.txt"
